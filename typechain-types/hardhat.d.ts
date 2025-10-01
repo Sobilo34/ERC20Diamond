@@ -69,6 +69,10 @@ declare module "hardhat/types/runtime" {
       name: "LibDiamond",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.LibDiamond__factory>;
+    getContractFactory(
+      name: "Lock",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Lock__factory>;
 
     getContractAt(
       name: "Diamond",
@@ -140,6 +144,11 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.LibDiamond>;
+    getContractAt(
+      name: "Lock",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Lock>;
 
     deployContract(
       name: "Diamond",
@@ -197,6 +206,10 @@ declare module "hardhat/types/runtime" {
       name: "LibDiamond",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.LibDiamond>;
+    deployContract(
+      name: "Lock",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Lock>;
 
     deployContract(
       name: "Diamond",
@@ -268,6 +281,11 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.LibDiamond>;
+    deployContract(
+      name: "Lock",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Lock>;
 
     // default types
     getContractFactory(

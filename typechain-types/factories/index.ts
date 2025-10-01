@@ -6,3 +6,4 @@ export * as interfaces from "./interfaces";
 export * as libraries from "./libraries";
 export { Diamond__factory } from "./Diamond__factory";
 export { DiamondInit__factory } from "./DiamondInit__factory";
+export { Lock__factory } from "./Lock__factory";
