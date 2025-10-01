@@ -1,8 +1,33 @@
-const { ethers } = require("hardhat");
+const { ethers, run, network } = require("hardhat");
+
+async function verify(address, constructorArguments) {
+  if (network.name === "hardhat" || network.name === "localhost") {
+    return;
+  }
+  
+  console.log(`Verifying contract at ${address}...`);
+  try {
+    await run("verify:verify", {
+      address: address,
+      constructorArguments: constructorArguments,
+    });
+    console.log(`✅ Verified: https://sepolia-blockscout.lisk.com/address/${address}`);
+  } catch (e) {
+    if (e.message.toLowerCase().includes("already verified")) {
+      console.log(`✅ Already verified: https://sepolia-blockscout.lisk.com/address/${address}`);
+    } else {
+      console.log(`❌ Verification failed: ${e.message}`);
+    }
+  }
+}
 
 async function main() {
   const [deployer] = await ethers.getSigners();
   const deployerAddress = await deployer.getAddress();
+
+  console.log("Deploying contracts to network:", network.name);
+  console.log("Deployer address:", deployerAddress);
+  console.log("Account balance:", ethers.formatEther(await ethers.provider.getBalance(deployerAddress)), "ETH\n");
 
   // Deploy facets
   const DiamondCutFacet = await ethers.getContractFactory("DiamondCutFacet");
@@ -123,18 +148,68 @@ async function main() {
   const tx = await diamondCut.diamondCut(cuts, diamondInitAddress, functionCall);
   await tx.wait();
 
+  console.log("\n⏳ Waiting for block confirmations before verification...\n");
+  
+  // Verify all contracts
+  if (network.name !== "hardhat" && network.name !== "localhost") {
+    await verify(diamondCutFacetAddress, []);
+    await verify(diamondLoupeFacetAddress, []);
+    await verify(ownershipFacetAddress, []);
+    await verify(erc20FacetAddress, []);
+    await verify(swapFacetAddress, []);
+    await verify(multiSigFacetAddress, []);
+    await verify(tokenURIFacetAddress, []);
+    await verify(diamondInitAddress, []);
+    await verify(diamondAddress, [deployerAddress, diamondCutFacetAddress]);
+  }
+
   // Log deployed and verified contract addresses
   console.log("\n=== Diamond Proxy Deployment ===");
   console.log("Diamond (Proxy):", diamondAddress);
+  if (network.name === "lisk") {
+    console.log("View on Blockscout: https://sepolia-blockscout.lisk.com/address/" + diamondAddress);
+  }
+  
   console.log("\n=== Implementation Contracts ===");
   console.log("DiamondCutFacet:", diamondCutFacetAddress);
+  if (network.name === "lisk") {
+    console.log("  → https://sepolia-blockscout.lisk.com/address/" + diamondCutFacetAddress);
+  }
+  
   console.log("DiamondLoupeFacet:", diamondLoupeFacetAddress);
+  if (network.name === "lisk") {
+    console.log("  → https://sepolia-blockscout.lisk.com/address/" + diamondLoupeFacetAddress);
+  }
+  
   console.log("OwnershipFacet:", ownershipFacetAddress);
+  if (network.name === "lisk") {
+    console.log("  → https://sepolia-blockscout.lisk.com/address/" + ownershipFacetAddress);
+  }
+  
   console.log("ERC20Facet:", erc20FacetAddress);
+  if (network.name === "lisk") {
+    console.log("  → https://sepolia-blockscout.lisk.com/address/" + erc20FacetAddress);
+  }
+  
   console.log("SwapFacet:", swapFacetAddress);
+  if (network.name === "lisk") {
+    console.log("  → https://sepolia-blockscout.lisk.com/address/" + swapFacetAddress);
+  }
+  
   console.log("MultiSigFacet:", multiSigFacetAddress);
+  if (network.name === "lisk") {
+    console.log("  → https://sepolia-blockscout.lisk.com/address/" + multiSigFacetAddress);
+  }
+  
   console.log("TokenURIFacet:", tokenURIFacetAddress);
+  if (network.name === "lisk") {
+    console.log("  → https://sepolia-blockscout.lisk.com/address/" + tokenURIFacetAddress);
+  }
+  
   console.log("DiamondInit:", diamondInitAddress);
+  if (network.name === "lisk") {
+    console.log("  → https://sepolia-blockscout.lisk.com/address/" + diamondInitAddress);
+  }
   
   return {
     diamond: diamondAddress,

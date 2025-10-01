@@ -3,9 +3,9 @@ import "@nomicfoundation/hardhat-toolbox";
 import dotenv from "dotenv";
 dotenv.config();
 
-const LISK_URL_KEY = process.env.LISK_URL_KEY || process.env.LISK_URL_RPC || "https://rpc.sepolia-api.lisk.com";
-const PRIVATE_KEY = process.env.PRIVATE_KEY || "0x0000000000000000000000000000000000000000000000000000000000000001";
-const LISK_EXPLORER_KEY = process.env.LISK_EXPLORER_KEY || "";
+const LISK_URL_RPC = process.env.LISK_URL_RPC;
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const LISK_EXPLORER_KEY = process.env.LISK_EXPLORER_KEY || (() => { throw new Error("LISK_EXPLORER_KEY is not defined"); })();
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -22,22 +22,18 @@ const config: HardhatUserConfig = {
     hardhat: {
       chainId: 1337
     },
-    localhost: {
-      url: "http://127.0.0.1:8545",
-      chainId: 1337
-    },
-    'lisk-sepolia-testnet': {
-      url: LISK_URL_KEY,
-      accounts: PRIVATE_KEY ? [PRIVATE_KEY.startsWith("0x") ? PRIVATE_KEY : `0x${PRIVATE_KEY}`] : []
+    lisk: {
+      url: LISK_URL_RPC,
+      accounts: [PRIVATE_KEY ? (PRIVATE_KEY.startsWith("0x") ? PRIVATE_KEY : `0x${PRIVATE_KEY}`) : (() => { throw new Error("PRIVATE_KEY is not defined"); })()]
     },
   },
   etherscan: {
     apiKey: {
-      'lisk-sepolia-testnet': LISK_EXPLORER_KEY
+      lisk: LISK_EXPLORER_KEY
     },
     customChains: [
       {
-        network: "lisk-sepolia-testnet",
+        network: "lisk",
         chainId: 4202,
         urls: {
           apiURL: "https://sepolia-blockscout.lisk.com/api",
