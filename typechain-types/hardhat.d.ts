@@ -4,42 +4,288 @@
 
 import { ethers } from "ethers";
 import {
+  DeployContractOptions,
   FactoryOptions,
   HardhatEthersHelpers as HardhatEthersHelpersBase,
-} from "@nomiclabs/hardhat-ethers/types";
+} from "@nomicfoundation/hardhat-ethers/types";
 
 import * as Contracts from ".";
 
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
-      name: "DiamondProxyContract",
+      name: "Diamond",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.DiamondProxyContract__factory>;
+    ): Promise<Contracts.Diamond__factory>;
+    getContractFactory(
+      name: "DiamondInit",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.DiamondInit__factory>;
+    getContractFactory(
+      name: "DiamondCutFacet",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.DiamondCutFacet__factory>;
+    getContractFactory(
+      name: "DiamondLoupeFacet",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.DiamondLoupeFacet__factory>;
     getContractFactory(
       name: "ERC20Facet",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20Facet__factory>;
     getContractFactory(
-      name: "ERC20Internal",
+      name: "MultiSigFacet",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ERC20Internal__factory>;
+    ): Promise<Contracts.MultiSigFacet__factory>;
+    getContractFactory(
+      name: "OwnershipFacet",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.OwnershipFacet__factory>;
+    getContractFactory(
+      name: "SwapFacet",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SwapFacet__factory>;
+    getContractFactory(
+      name: "TokenURIFacet",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TokenURIFacet__factory>;
+    getContractFactory(
+      name: "IDiamondCut",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IDiamondCut__factory>;
+    getContractFactory(
+      name: "IDiamondLoupe",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IDiamondLoupe__factory>;
+    getContractFactory(
+      name: "IERC165",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC165__factory>;
+    getContractFactory(
+      name: "IERC173",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC173__factory>;
+    getContractFactory(
+      name: "LibDiamond",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.LibDiamond__factory>;
+    getContractFactory(
+      name: "Lock",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Lock__factory>;
 
     getContractAt(
-      name: "DiamondProxyContract",
-      address: string,
+      name: "Diamond",
+      address: string | ethers.Addressable,
       signer?: ethers.Signer
-    ): Promise<Contracts.DiamondProxyContract>;
+    ): Promise<Contracts.Diamond>;
+    getContractAt(
+      name: "DiamondInit",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.DiamondInit>;
+    getContractAt(
+      name: "DiamondCutFacet",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.DiamondCutFacet>;
+    getContractAt(
+      name: "DiamondLoupeFacet",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.DiamondLoupeFacet>;
     getContractAt(
       name: "ERC20Facet",
-      address: string,
+      address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.ERC20Facet>;
     getContractAt(
-      name: "ERC20Internal",
-      address: string,
+      name: "MultiSigFacet",
+      address: string | ethers.Addressable,
       signer?: ethers.Signer
-    ): Promise<Contracts.ERC20Internal>;
+    ): Promise<Contracts.MultiSigFacet>;
+    getContractAt(
+      name: "OwnershipFacet",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.OwnershipFacet>;
+    getContractAt(
+      name: "SwapFacet",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SwapFacet>;
+    getContractAt(
+      name: "TokenURIFacet",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TokenURIFacet>;
+    getContractAt(
+      name: "IDiamondCut",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IDiamondCut>;
+    getContractAt(
+      name: "IDiamondLoupe",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IDiamondLoupe>;
+    getContractAt(
+      name: "IERC165",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC165>;
+    getContractAt(
+      name: "IERC173",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC173>;
+    getContractAt(
+      name: "LibDiamond",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.LibDiamond>;
+    getContractAt(
+      name: "Lock",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Lock>;
+
+    deployContract(
+      name: "Diamond",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Diamond>;
+    deployContract(
+      name: "DiamondInit",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.DiamondInit>;
+    deployContract(
+      name: "DiamondCutFacet",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.DiamondCutFacet>;
+    deployContract(
+      name: "DiamondLoupeFacet",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.DiamondLoupeFacet>;
+    deployContract(
+      name: "ERC20Facet",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ERC20Facet>;
+    deployContract(
+      name: "MultiSigFacet",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.MultiSigFacet>;
+    deployContract(
+      name: "OwnershipFacet",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.OwnershipFacet>;
+    deployContract(
+      name: "SwapFacet",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.SwapFacet>;
+    deployContract(
+      name: "TokenURIFacet",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.TokenURIFacet>;
+    deployContract(
+      name: "IDiamondCut",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IDiamondCut>;
+    deployContract(
+      name: "IDiamondLoupe",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IDiamondLoupe>;
+    deployContract(
+      name: "IERC165",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC165>;
+    deployContract(
+      name: "IERC173",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC173>;
+    deployContract(
+      name: "LibDiamond",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.LibDiamond>;
+    deployContract(
+      name: "Lock",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Lock>;
+
+    deployContract(
+      name: "Diamond",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Diamond>;
+    deployContract(
+      name: "DiamondInit",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.DiamondInit>;
+    deployContract(
+      name: "DiamondCutFacet",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.DiamondCutFacet>;
+    deployContract(
+      name: "DiamondLoupeFacet",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.DiamondLoupeFacet>;
+    deployContract(
+      name: "ERC20Facet",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ERC20Facet>;
+    deployContract(
+      name: "MultiSigFacet",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.MultiSigFacet>;
+    deployContract(
+      name: "OwnershipFacet",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.OwnershipFacet>;
+    deployContract(
+      name: "SwapFacet",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.SwapFacet>;
+    deployContract(
+      name: "TokenURIFacet",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.TokenURIFacet>;
+    deployContract(
+      name: "IDiamondCut",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IDiamondCut>;
+    deployContract(
+      name: "IDiamondLoupe",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IDiamondLoupe>;
+    deployContract(
+      name: "IERC165",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC165>;
+    deployContract(
+      name: "IERC173",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC173>;
+    deployContract(
+      name: "LibDiamond",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.LibDiamond>;
+    deployContract(
+      name: "Lock",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Lock>;
 
     // default types
     getContractFactory(
@@ -48,13 +294,22 @@ declare module "hardhat/types/runtime" {
     ): Promise<ethers.ContractFactory>;
     getContractFactory(
       abi: any[],
-      bytecode: ethers.utils.BytesLike,
+      bytecode: ethers.BytesLike,
       signer?: ethers.Signer
     ): Promise<ethers.ContractFactory>;
     getContractAt(
       nameOrAbi: string | any[],
-      address: string,
+      address: string | ethers.Addressable,
       signer?: ethers.Signer
+    ): Promise<ethers.Contract>;
+    deployContract(
+      name: string,
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<ethers.Contract>;
+    deployContract(
+      name: string,
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<ethers.Contract>;
   }
 }
