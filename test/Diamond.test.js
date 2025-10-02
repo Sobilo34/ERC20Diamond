@@ -121,7 +121,6 @@ describe("BLL Diamond Token - Complete Test Suite", function () {
 
   describe("MultiSig Functionality", function () {
     beforeEach(async function () {
-      // Initialize multisig with 2 owners and 2 required confirmations
       await multiSigFacet.initializeMultiSig(
         [addr1Address, addr2Address],
         2
@@ -147,18 +146,15 @@ describe("BLL Diamond Token - Complete Test Suite", function () {
     });
 
     it("Should confirm and execute transaction", async function () {
-      // Submit transaction
       await multiSigFacet.connect(addr1).submitTransaction(
         addr3Address,
         0,
         "0x"
       );
       
-      // Confirm from both owners
       await multiSigFacet.connect(addr1).confirmTransaction(0);
       await multiSigFacet.connect(addr2).confirmTransaction(0);
       
-      // Execute
       await multiSigFacet.connect(addr1).executeTransaction(0);
       
       const tx = await multiSigFacet.getTransaction(0);
@@ -252,7 +248,6 @@ describe("BLL Diamond Token - Complete Test Suite", function () {
 
   describe("Diamond Upgradeability", function () {
     it("Should support adding new functions", async function () {
-      // This demonstrates the diamond is upgradeable
       const facets = await diamondLoupeFacet.facets();
       expect(facets.length).to.be.greaterThan(0);
     });

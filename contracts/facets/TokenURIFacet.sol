@@ -5,11 +5,7 @@ import {LibTokenURI} from "../libraries/LibTokenURI.sol";
 import {LibERC20} from "../libraries/LibERC20.sol";
 import {LibDiamond} from "../libraries/LibDiamond.sol";
 
-/// @title TokenURIFacet
-/// @notice Provides onchain SVG logo and ERC721-style metadata for the BLL token
 contract TokenURIFacet {
-    /// @notice Get the token URI with onchain SVG and metadata
-    /// @return JSON metadata string with embedded SVG
     function tokenURI() external view returns (string memory) {
         LibTokenURI.TokenURIStorage storage ts = LibTokenURI.tokenURIStorage();
         LibERC20.ERC20Storage storage es = LibERC20.erc20Storage();
@@ -41,24 +37,6 @@ contract TokenURIFacet {
         ));
     }
 
-    /// @notice Set token metadata (owner only)
-    /// @param _description Token description
-    /// @param _externalUrl External URL for token
-    /// @param _backgroundColor Background color (hex without #)
-    function setTokenMetadata(
-        string memory _description,
-        string memory _externalUrl,
-        string memory _backgroundColor
-    ) external {
-        LibDiamond.enforceIsContractOwner();
-        LibTokenURI.TokenURIStorage storage ts = LibTokenURI.tokenURIStorage();
-        ts.description = _description;
-        ts.externalUrl = _externalUrl;
-        ts.backgroundColor = _backgroundColor;
-    }
-
-    /// @notice Generate the SVG logo
-    /// @dev This creates a beautiful BLL token logo
     function _generateSVG() internal view returns (string memory) {
         LibERC20.ERC20Storage storage es = LibERC20.erc20Storage();
         
@@ -87,12 +65,10 @@ contract TokenURIFacet {
         ));
     }
 
-    /// @notice Get the SVG logo directly
     function getLogo() external view returns (string memory) {
         return _generateSVG();
     }
 
-    /// @notice Get metadata without base64 encoding
     function getMetadata() external view returns (string memory) {
         LibTokenURI.TokenURIStorage storage ts = LibTokenURI.tokenURIStorage();
         LibERC20.ERC20Storage storage es = LibERC20.erc20Storage();
@@ -112,7 +88,6 @@ contract TokenURIFacet {
         ));
     }
 
-    // Base64 encoding
     function _encodeBase64(bytes memory data) internal pure returns (string memory) {
         if (data.length == 0) return "";
 

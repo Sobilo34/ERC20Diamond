@@ -33,9 +33,6 @@ contract MultiSigFacet {
         _;
     }
 
-    /// @notice Initialize multisig with owners and required confirmations
-    /// @param _owners List of initial owners
-    /// @param _required Number of required confirmations
     function initializeMultiSig(address[] memory _owners, uint256 _required) external {
         LibDiamond.enforceIsContractOwner();
         LibMultiSig.MultiSigStorage storage ms = LibMultiSig.multiSigStorage();
@@ -58,10 +55,6 @@ contract MultiSigFacet {
         emit RequirementChanged(_required);
     }
 
-    /// @notice Submit a new transaction
-    /// @param _to Destination address
-    /// @param _value ETH value to send
-    /// @param _data Transaction data
     function submitTransaction(address _to, uint256 _value, bytes memory _data) external onlyMultiSigOwner returns (uint256) {
         LibMultiSig.MultiSigStorage storage ms = LibMultiSig.multiSigStorage();
         
@@ -78,8 +71,6 @@ contract MultiSigFacet {
         return txId;
     }
 
-    /// @notice Confirm a transaction
-    /// @param _txId Transaction ID
     function confirmTransaction(uint256 _txId) 
         external 
         onlyMultiSigOwner 
@@ -93,8 +84,6 @@ contract MultiSigFacet {
         emit TransactionConfirmed(_txId, msg.sender);
     }
 
-    /// @notice Execute a confirmed transaction
-    /// @param _txId Transaction ID
     function executeTransaction(uint256 _txId) 
         external 
         onlyMultiSigOwner 
@@ -114,8 +103,6 @@ contract MultiSigFacet {
         emit TransactionExecuted(_txId);
     }
 
-    /// @notice Revoke a confirmation
-    /// @param _txId Transaction ID
     function revokeConfirmation(uint256 _txId) 
         external 
         onlyMultiSigOwner 
@@ -130,8 +117,6 @@ contract MultiSigFacet {
         emit TransactionRevoked(_txId, msg.sender);
     }
 
-    /// @notice Add a new owner (requires contract owner)
-    /// @param _owner New owner address
     function addOwner(address _owner) external {
         LibDiamond.enforceIsContractOwner();
         LibMultiSig.MultiSigStorage storage ms = LibMultiSig.multiSigStorage();
@@ -144,8 +129,6 @@ contract MultiSigFacet {
         emit OwnerAdded(_owner);
     }
 
-    /// @notice Remove an owner (requires contract owner)
-    /// @param _owner Owner address to remove
     function removeOwner(address _owner) external {
         LibDiamond.enforceIsContractOwner();
         LibMultiSig.MultiSigStorage storage ms = LibMultiSig.multiSigStorage();
@@ -155,7 +138,6 @@ contract MultiSigFacet {
 
         ms.isOwner[_owner] = false;
         
-        // Remove from owners array
         for (uint256 i = 0; i < ms.owners.length; i++) {
             if (ms.owners[i] == _owner) {
                 ms.owners[i] = ms.owners[ms.owners.length - 1];
@@ -166,8 +148,6 @@ contract MultiSigFacet {
         emit OwnerRemoved(_owner);
     }
 
-    /// @notice Change required confirmations (requires contract owner)
-    /// @param _required New required confirmations
     function changeRequirement(uint256 _required) external {
         LibDiamond.enforceIsContractOwner();
         LibMultiSig.MultiSigStorage storage ms = LibMultiSig.multiSigStorage();
@@ -177,7 +157,6 @@ contract MultiSigFacet {
         emit RequirementChanged(_required);
     }
 
-    // View functions
     function getOwners() external view returns (address[] memory) {
         return LibMultiSig.multiSigStorage().owners;
     }
